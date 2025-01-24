@@ -6,6 +6,7 @@ using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
 using SimpleHardwareMonitor.Extensions;
+using SimpleHardwareMonitor.Services;
 using SimpleHardwareMonitor.ViewModels;
 using SimpleHardwareMonitor.Views;
 
@@ -24,6 +25,7 @@ namespace SimpleHardwareMonitor
             var collection = new ServiceCollection();
             collection.AddCommonServices();
             var services = collection.BuildServiceProvider();
+            var hardwareService = services.GetRequiredService<IHardwareService>();
 
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
@@ -32,7 +34,7 @@ namespace SimpleHardwareMonitor
                 DisableAvaloniaDataAnnotationValidation();
                 desktop.MainWindow = new MainWindow
                 {
-                    DataContext = new MainWindowViewModel(),
+                    DataContext = new MainWindowViewModel(hardwareService),
                 };
             }
 
