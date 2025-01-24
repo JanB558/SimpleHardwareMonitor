@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using SimpleHardwareMonitor.Models;
 using SimpleHardwareMonitor.Services;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace SimpleHardwareMonitor.ViewModels
 {
@@ -11,9 +13,19 @@ namespace SimpleHardwareMonitor.ViewModels
         {
             _hardwareService = hardwareService;
             Hardware = _hardwareService.GetHardwareInfo();
+
             _ = _hardwareService.RunRefresh();
+            _ = RunRefresh();
         }
         [ObservableProperty]
         private HardwareInfo _hardware;
+        private async Task RunRefresh()
+        {
+            while(true)
+            {
+                Hardware = _hardwareService.GetHardwareInfo();
+                await Task.Delay(1000);
+            }
+        }
     }
 }

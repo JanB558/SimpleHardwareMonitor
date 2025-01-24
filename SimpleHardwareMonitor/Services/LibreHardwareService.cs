@@ -4,6 +4,7 @@ using SimpleHardwareMonitor.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -72,7 +73,7 @@ namespace SimpleHardwareMonitor.Services
                 while (!_cts.Token.IsCancellationRequested)
                 {
                     _computer.Traverse(_visitor);
-                    await Task.Yield();
+                    await Task.Delay(500);
                 }
             }, _cts.Token);
         }
