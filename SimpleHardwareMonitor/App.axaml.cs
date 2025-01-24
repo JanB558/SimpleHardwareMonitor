@@ -4,6 +4,8 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Microsoft.Extensions.DependencyInjection;
+using SimpleHardwareMonitor.Extensions;
 using SimpleHardwareMonitor.ViewModels;
 using SimpleHardwareMonitor.Views;
 
@@ -18,6 +20,11 @@ namespace SimpleHardwareMonitor
 
         public override void OnFrameworkInitializationCompleted()
         {
+            //services
+            var collection = new ServiceCollection();
+            collection.AddCommonServices();
+            var services = collection.BuildServiceProvider();
+
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
                 // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
