@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace SimpleHardwareMonitor.Services
@@ -13,9 +14,13 @@ namespace SimpleHardwareMonitor.Services
     public class LibreHardwareService : IHardwareService
     {
         private readonly Computer _computer;
+        private readonly UpdateVisitor _visitor;
+        private CancellationTokenSource _cts;
 
         public LibreHardwareService()
         {
+            _cts = new CancellationTokenSource();
+
             _computer = new Computer
             {
                 IsCpuEnabled = true,
@@ -29,10 +34,13 @@ namespace SimpleHardwareMonitor.Services
                 IsNetworkEnabled = false,
                 IsPsuEnabled = false
             };
+
             HardwareInfo = new HardwareInfo();
+
             _computer.Open();
-            var visitor = new UpdateVisitor();
-            _computer.Accept(visitor);
+            _visitor = new UpdateVisitor();
+            _computer.Accept(_visitor);
+
             Init();
         }
 
@@ -55,6 +63,18 @@ namespace SimpleHardwareMonitor.Services
             GetDrivesSensors();
             GetMotherboard();
             GetMotherboardSensors();
+        }
+
+        public async Task RunRefresh()
+        {
+            await Task.Run(async () =>
+            {
+                while (!_cts.Token.IsCancellationRequested)
+                {
+                    _computer.Traverse(_visitor);
+                    await Task.Yield();
+                }
+            }, _cts.Token);
         }
 
         #region GPU

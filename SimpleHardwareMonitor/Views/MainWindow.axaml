@@ -19,11 +19,11 @@
 		RowDefinitions="Auto,Auto,Auto,Auto" 
 		ColumnDefinitions="50*,50*">
 		<TextBlock Text="CPU: " Grid.Row="0" Grid.Column="0"/>
-		<TextBlock Text="{Binding HardwareInfo.CPU.Name}" Grid.Row="1" Grid.Column="0"/>
+		<TextBlock Text="{Binding Hardware.CPU.Name}" Grid.Row="1" Grid.Column="0"/>
 		<TextBlock Text="CPU Temperature: " Grid.Row="2" Grid.Column="0"/>
 		<TextBlock 
 			Grid.Row="3" 
 			Grid.Column="0"
-			Text="{Binding HardwareInfo.CPUTemperature.Value, StringFormat='{}{0}°C'}"/>
+			Text="{Binding Hardware.CPUTemperature.Value, StringFormat='{}{0}°C'}"/>
 	</Grid>
 </Window>

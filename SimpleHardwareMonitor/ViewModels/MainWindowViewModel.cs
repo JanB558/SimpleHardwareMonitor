@@ -1,17 +1,19 @@
-﻿using SimpleHardwareMonitor.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using SimpleHardwareMonitor.Models;
 using SimpleHardwareMonitor.Services;
 
 namespace SimpleHardwareMonitor.ViewModels
 {
-    public partial class MainWindowViewModel : ViewModelBase
+    public partial class MainWindowViewModel : ObservableObject
     {
         private readonly IHardwareService _hardwareService;
         public MainWindowViewModel(IHardwareService hardwareService)
         {
             _hardwareService = hardwareService;
-            HardwareInfo = _hardwareService.GetHardwareInfo();
+            Hardware = _hardwareService.GetHardwareInfo();
+            _ = _hardwareService.RunRefresh();
         }
-        public string Greeting { get; } = "Welcome to Avalonia!";
-        public HardwareInfo HardwareInfo { get; }
+        [ObservableProperty]
+        private HardwareInfo _hardware;
     }
 }
