@@ -1,4 +1,5 @@
-﻿using SimpleHardwareMonitor.Services;
+﻿using SimpleHardwareMonitor.Models;
+using SimpleHardwareMonitor.Services;
 
 namespace SimpleHardwareMonitor.ViewModels
 {
@@ -8,7 +9,9 @@ namespace SimpleHardwareMonitor.ViewModels
         public MainWindowViewModel(IHardwareService hardwareService)
         {
             _hardwareService = hardwareService;
+            HardwareInfo = _hardwareService.GetHardwareInfo();
         }
         public string Greeting { get; } = "Welcome to Avalonia!";
+        public HardwareInfo HardwareInfo { get; }
     }
 }

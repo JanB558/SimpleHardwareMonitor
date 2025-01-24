@@ -15,6 +15,8 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
+	<Grid RowDefinitions="50*,50*" ColumnDefinitions="50*,50*">
+		<TextBlock Text="CPU: " Grid.Row="0" Grid.Column="0"/>
+		<TextBlock Text="{Binding HardwareInfo.CPU}" Grid.Row="0" Grid.Column="1"/>
+	</Grid>
 </Window>
