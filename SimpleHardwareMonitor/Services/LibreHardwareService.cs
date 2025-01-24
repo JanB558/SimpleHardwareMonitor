@@ -1,6 +1,8 @@
 ﻿using LibreHardwareMonitor.Hardware;
 using SimpleHardwareMonitor.Models;
+using SimpleHardwareMonitor.Utilities;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,6 +30,9 @@ namespace SimpleHardwareMonitor.Services
                 IsPsuEnabled = false
             };
             HardwareInfo = new HardwareInfo();
+            _computer.Open();
+            var visitor = new UpdateVisitor();
+            _computer.Accept(visitor);
             Init();
         }
 
