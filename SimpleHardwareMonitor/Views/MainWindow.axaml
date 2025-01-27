@@ -55,9 +55,11 @@
 			<TextBlock Grid.Row="4"
 					   Text="{Binding Hardware.CPU.Name, StringFormat='CPU: {0}'}"/>
 			<TextBlock Grid.Row="5"
-					   Text="{Binding CpuTemperature, StringFormat='Temperature: {0}°C'}"/>
+					   Text="{Binding CpuTemperature, StringFormat='Temperature: {0}°C', 
+					   TargetNullValue='Temperature: Sensor not found'}"/>
 			<TextBlock Grid.Row="6"
-					   Text="{Binding CpuLoad, StringFormat='Total load: {0}%'}"/>
+					   Text="{Binding CpuLoad, StringFormat='Total load: {0}%', 
+					   TargetNullValue='Total load: Sensor not found'}"/>
 			<TextBlock Grid.Row="7">
 				<TextBlock.Text>
 					<MultiBinding StringFormat="Thread loads: {0}">
@@ -85,7 +87,8 @@
 			<TextBlock Grid.Row="10"
 					   Text="{Binding Hardware.Memory.Name, StringFormat='Memory: {0}'}"/>
 			<TextBlock Grid.Row="11"
-					   Text="{Binding MemoryTemperature, StringFormat='Temperature: {0}°C'}"/>
+					   Text="{Binding MemoryTemperature, StringFormat='Temperature: {0}°C', 
+					   TargetNullValue='Temperature: Sensor not found'}"/>
 			<TextBlock Grid.Row="12"
 					   Text="{Binding MemoryUsed, StringFormat='Memory used: {0} GB'}"/>
 			<TextBlock Grid.Row="13"
