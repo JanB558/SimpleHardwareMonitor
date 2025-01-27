@@ -33,22 +33,22 @@ namespace SimpleHardwareMonitor.ViewModels
         public float? CpuTemperature => Hardware?.CPUTemperature?.Value;
         public float? CpuLoad => Hardware?.CPULoad?.Value;
         public ObservableCollection<IndexValue> ThreadsLoad
-            => new ObservableCollection<IndexValue>(
+            => new(
                 Hardware.ThreadsLoad.Select((x, index) => new IndexValue
                 {
                     Value = x.Value ?? 0f,
                     Index = index
-                }).ToList() ?? new List<IndexValue>()
+                }).ToList() ?? []
                 );
         #endregion
         #region mobo
         public ObservableCollection<IndexValue> MotherboardTemperature
-            => new ObservableCollection<IndexValue>(
+            => new(
                 Hardware.MotherboardTemperature.Select((x, index) => new IndexValue
                 {
-                    Value = x.Value ?? 0f,
+                    Value = x?.Value ?? 0f,
                     Index = index
-                }).ToList() ?? new List<IndexValue>()
+                }).ToList() ?? []
                 );
         #endregion
         #region memory
@@ -104,13 +104,15 @@ namespace SimpleHardwareMonitor.ViewModels
             List<GpuData> output = [];
             for (int i = 0; i < GpuNames.Count; i++)
             {
-                var model = new GpuData();
-                model.Name = GpuNames[i];
-                model.Temperature = GpuTemperature[i];
-                model.Load = GpuLoad[i];
-                model.MemoryTotal = GpuMemoryTotal[i];
-                model.MemoryFree = GpuMemoryFree[i];
-                model.MemoryUsed = GpuMemoryUsed[i];
+                var model = new GpuData
+                {
+                    Name = GpuNames[i],
+                    Temperature = GpuTemperature[i],
+                    Load = GpuLoad[i],
+                    MemoryTotal = GpuMemoryTotal[i],
+                    MemoryFree = GpuMemoryFree[i],
+                    MemoryUsed = GpuMemoryUsed[i]
+                };
                 output.Add(model);
             }
             return output;
@@ -121,10 +123,12 @@ namespace SimpleHardwareMonitor.ViewModels
             List<DriveData> output = [];
             for(int i = 0;i < DriveNames.Count;i++)
             {
-                var model = new DriveData();
-                model.Name = DriveNames[i];
-                model.Temperature = DriveTemperature[i];
-                model.Activity = DriveActivity[i];
+                var model = new DriveData
+                {
+                    Name = DriveNames[i],
+                    Temperature = DriveTemperature[i],
+                    Activity = DriveActivity[i]
+                };
                 output.Add(model);
             }
             return output;
