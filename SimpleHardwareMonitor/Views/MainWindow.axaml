@@ -8,127 +8,148 @@
         x:Class="SimpleHardwareMonitor.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="SimpleHardwareMonitor">
+        Title="SimpleHardwareMonitor"
+		MinWidth="300"
+		Background="#F5F5F5">
 
 	<Window.Resources>
 		<converters:SensorStatusConverter x:Key="SensorStatusConverter" />
 	</Window.Resources>
-	
+
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
-	
-	<Grid 
-		ColumnDefinitions="50*,50*">
+
+	<ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
 		<Grid
-			Grid.Column="0"
-			RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+			RowDefinitions="Auto,Auto,Auto,Auto,Auto"
 			Margin="20">
-			<TextBlock Grid.Row="0"
-					   Text="{Binding Hardware.Motherboard.Name, StringFormat='Motherboard: {0}'}"/>
-			<TextBlock Grid.Row="1">
-				<TextBlock.Text>
-					<MultiBinding StringFormat="Temperature: {0}">
-						<Binding Path="MotherboardTemperature"
-								 Converter="{StaticResource SensorStatusConverter}" />
-					</MultiBinding>
-				</TextBlock.Text>
-			</TextBlock>
-			<ItemsControl Grid.Row="2" ItemsSource="{Binding MotherboardTemperature}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<TextBlock>
-							<TextBlock.Text>
-								<MultiBinding StringFormat="Sensor #{0}: {1}°C">
-									<Binding Path="Index" />
-									<Binding Path="Value" />
-								</MultiBinding>
-							</TextBlock.Text>
-						</TextBlock>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-			<Separator Grid.Row="3"/>
-
-			<TextBlock Grid.Row="4"
-					   Text="{Binding Hardware.CPU.Name, StringFormat='CPU: {0}'}"/>
-			<TextBlock Grid.Row="5"
-					   Text="{Binding CpuTemperature, StringFormat='Temperature: {0}°C', 
+			<!--mobo-->
+			<Border Grid.Row="0" Classes="b1">
+				<Grid RowDefinitions="Auto,Auto,Auto">
+					<TextBlock Grid.Row="0" Classes="h2"
+							   Text="{Binding Hardware.Motherboard.Name, StringFormat='Motherboard: {0}'}"/>
+					<TextBlock Grid.Row="1">
+						<TextBlock.Text>
+							<MultiBinding StringFormat="Temperature: {0}">
+								<Binding Path="MotherboardTemperature"
+										 Converter="{StaticResource SensorStatusConverter}" />
+							</MultiBinding>
+						</TextBlock.Text>
+					</TextBlock>
+					<ItemsControl Grid.Row="2" ItemsSource="{Binding MotherboardTemperature}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock>
+									<TextBlock.Text>
+										<MultiBinding StringFormat="Sensor #{0}: {1}°C">
+											<Binding Path="Index" />
+											<Binding Path="Value" />
+										</MultiBinding>
+									</TextBlock.Text>
+								</TextBlock>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
+			</Border>
+			<!--cpu-->
+			<Border Grid.Row="1" Classes="b1">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto">
+					<TextBlock Grid.Row="0" Classes="h2"
+							   Text="{Binding Hardware.CPU.Name, StringFormat='CPU: {0}'}"/>
+					<TextBlock Grid.Row="1"
+							   Text="{Binding CpuTemperature, StringFormat='Temperature: {0}°C', 
 					   TargetNullValue='Temperature: Sensor not found'}"/>
-			<TextBlock Grid.Row="6"
-					   Text="{Binding CpuLoad, StringFormat='Total load: {0}%', 
+					<TextBlock Grid.Row="2"
+							   Text="{Binding CpuLoad, StringFormat='Total load: {0}%', 
 					   TargetNullValue='Total load: Sensor not found'}"/>
-			<TextBlock Grid.Row="7">
-				<TextBlock.Text>
-					<MultiBinding StringFormat="Thread loads: {0}">
-						<Binding Path="ThreadsLoad"
-								 Converter="{StaticResource SensorStatusConverter}" />
-					</MultiBinding>
-				</TextBlock.Text>
-			</TextBlock>
-			<ItemsControl Grid.Row="8" ItemsSource="{Binding ThreadsLoad}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<TextBlock>
-							<TextBlock.Text>
-								<MultiBinding StringFormat="Core #{0}: {1}%">
-									<Binding Path="Index" />
-									<Binding Path="Value" />
-								</MultiBinding>
-							</TextBlock.Text>
-						</TextBlock>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-			<Separator Grid.Row="9"/>
-
-			<TextBlock Grid.Row="10"
-					   Text="{Binding Hardware.Memory.Name, StringFormat='Memory: {0}'}"/>
-			<TextBlock Grid.Row="11"
-					   Text="{Binding MemoryTemperature, StringFormat='Temperature: {0}°C', 
+					<TextBlock Grid.Row="3">
+						<TextBlock.Text>
+							<MultiBinding StringFormat="Thread loads: {0}">
+								<Binding Path="ThreadsLoad"
+										 Converter="{StaticResource SensorStatusConverter}" />
+							</MultiBinding>
+						</TextBlock.Text>
+					</TextBlock>
+					<ItemsControl Grid.Row="4" ItemsSource="{Binding ThreadsLoad}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<TextBlock>
+									<TextBlock.Text>
+										<MultiBinding StringFormat="Core #{0}: {1}%">
+											<Binding Path="Index" />
+											<Binding Path="Value" />
+										</MultiBinding>
+									</TextBlock.Text>
+								</TextBlock>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+					</ItemsControl>
+				</Grid>
+			</Border>
+			<!--memory-->
+			<Border Grid.Row="2" Classes="b1">
+				<Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto">
+					<TextBlock Grid.Row="0" Classes="h2"
+							   Text="{Binding Hardware.Memory.Name, StringFormat='Memory: {0}'}"/>
+					<TextBlock Grid.Row="1"
+							   Text="{Binding MemoryTemperature, StringFormat='Temperature: {0}°C', 
 					   TargetNullValue='Temperature: Sensor not found'}"/>
-			<TextBlock Grid.Row="12"
-					   Text="{Binding MemoryUsed, StringFormat='Memory used: {0} GB'}"/>
-			<TextBlock Grid.Row="13"
-					   Text="{Binding MemoryFree, StringFormat='Memory free: {0} GB'}"/>
-			<TextBlock Grid.Row="14"
-					   Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB'}"/>
-			<TextBlock Grid.Row="15"
-					   Text="{Binding MemoryLoad, StringFormat='Memory load: {0}%'}"/>
+					<TextBlock Grid.Row="2"
+							   Text="{Binding MemoryUsed, StringFormat='Memory used: {0} GB', 
+							   TargetNullValue='Memory used: Sensor not found'}"/>
+					<TextBlock Grid.Row="3"
+							   Text="{Binding MemoryFree, StringFormat='Memory free: {0} GB', 
+							   TargetNullValue='Memory free: Sensor not found'}"/>
+					<TextBlock Grid.Row="4"
+							   Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB', 
+							   TargetNullValue='Memory total: Sensor not found'}"/>
+					<TextBlock Grid.Row="5"
+							   Text="{Binding MemoryLoad, StringFormat='Memory load: {0}%', 
+							   TargetNullValue='Memory load: Sensor not found'}"/>
+				</Grid>
+			</Border>
+			<!--gpu-->
+			<Border Grid.Row="3" Classes="b1">
+				<ItemsControl ItemsSource="{Binding GpuDataCombined}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<TextBlock Text="{Binding Name, StringFormat='GPU: {0}'}" Classes="h2"/>
+								<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C', 
+										   TargetNullValue='Temperature: Sensor not found'}" />
+								<TextBlock Text="{Binding Load, StringFormat='Load: {0}%', 
+										   TargetNullValue='Load: Sensor not found'}" />
+								<TextBlock Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB',
+										   TargetNullValue='Memory total: Sensor not found'}" />
+								<TextBlock Text="{Binding MemoryFree, StringFormat='Memory free {0} GB',
+										   TargetNullValue='Memory free: Sensor not found'}" />
+								<TextBlock Text="{Binding MemoryUsed, StringFormat='Memory used {0} GB',
+										   TargetNullValue='Memory used: Sensor not found'}" />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Border>
+			<!--drives-->
+			<Border Grid.Row="4" Classes="b1">
+				<ItemsControl Grid.Row="18" ItemsSource="{Binding DriveDataCombined}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<StackPanel>
+								<TextBlock Text="{Binding Name, StringFormat='Drive: {0}'}" Classes="h2"/>
+								<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C',
+										   TargetNullValue='Temperature: Sensor not found'}" />
+								<TextBlock Text="{Binding Activity, StringFormat='Activity: {0}%',
+										   TargetNullValue='Activity: Sensor not found'}" />
+							</StackPanel>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+			</Border>
 		</Grid>
-		<Grid
-			Margin="20"
-			Grid.Column="1"
-			RowDefinitions="Auto,Auto">
-			<ItemsControl Grid.Row="0" ItemsSource="{Binding GpuDataCombined}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="{Binding Name}" />
-							<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C'}" />
-							<TextBlock Text="{Binding Load, StringFormat='Load: {0}%'}" />
-							<TextBlock Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB'}" />
-							<TextBlock Text="{Binding MemoryFree, StringFormat='Memory free {0} GB'}" />
-							<TextBlock Text="{Binding MemoryUsed, StringFormat='Memory used {0} GB'}" />
-							<Separator/>
-						</StackPanel>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-			<ItemsControl Grid.Row="1" ItemsSource="{Binding DriveDataCombined}">
-				<ItemsControl.ItemTemplate>
-					<DataTemplate>
-						<StackPanel>
-							<TextBlock Text="{Binding Name}" />
-							<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C'}" />
-							<TextBlock Text="{Binding Activity, StringFormat='Activity: {0}%'}" />
-							<Separator/>
-						</StackPanel>
-					</DataTemplate>
-				</ItemsControl.ItemTemplate>
-			</ItemsControl>
-		</Grid>
-	</Grid>
+	</ScrollViewer>
 </Window>

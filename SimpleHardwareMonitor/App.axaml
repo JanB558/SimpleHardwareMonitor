@@ -8,8 +8,24 @@
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
-  
-    <Application.Styles>
-        <FluentTheme />
-    </Application.Styles>
+
+	<Application.Styles>
+		<FluentTheme />
+
+		<Style Selector="TextBlock">
+			<Setter Property="Foreground" Value="Black"/>
+		</Style>
+		<Style Selector="TextBlock.h2">
+			<Setter Property="Foreground" Value="Black"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+		</Style>
+		<Style Selector="Border.b1">
+			<Setter Property="Background" Value="#FFFFFF"/>
+			<Setter Property="CornerRadius" Value="10"/>
+			<Setter Property="BoxShadow" Value="5 5 5 0 DarkGray"/>
+			<Setter Property="Padding" Value="10"/>
+			<Setter Property="Margin" Value="0 5 0 5"/>
+		</Style>
+	</Application.Styles>
+
 </Application>
