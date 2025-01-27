@@ -58,6 +58,22 @@ namespace SimpleHardwareMonitor.ViewModels
         public float? MemoryLoad => Hardware?.MemoryLoad?.Value;
         public int? MemoryTotal => Hardware?.MemoryTotal;
         #endregion
+        #region gpu
+        private ObservableCollection<string> GpuNames
+            => new(Hardware.GPUs.Select(x => x?.Name ?? string.Empty).ToList());
+        private ObservableCollection<float?> GpuTemperature
+            => new(Hardware.GPUsTemperature.Select(x => x?.Value).ToList());
+        private ObservableCollection<float?> GpuLoad
+            => new(Hardware.GPUsLoad.Select(x => x?.Value).ToList());
+        private ObservableCollection<float?> GpuMemoryTotal
+            => new(Hardware.GPUsMemoryTotal.Select(x => x?.Value).ToList());
+        private ObservableCollection<float?> GpuMemoryFree
+            => new(Hardware.GPUsMemoryFree.Select(x => x?.Value).ToList());
+        private ObservableCollection<float?> GpuMemoryUsed
+            => new(Hardware.GPUsMemoryUsed.Select(x => x?.Value).ToList());
+        public ObservableCollection<GpuData> GpuDataCombined
+            => new(CreateGpuData().ToList());
+        #endregion
 
         private void RefreshHardwareInfo(object? state)
         {
@@ -69,7 +85,24 @@ namespace SimpleHardwareMonitor.ViewModels
             OnPropertyChanged(nameof(MemoryUsed));
             OnPropertyChanged(nameof(MemoryFree));
             OnPropertyChanged(nameof(MemoryLoad));
-            //OnPropertyChanged(nameof(MemoryTotal)); this property is constant
+            OnPropertyChanged(nameof(GpuDataCombined));
+        }
+
+        private ICollection<GpuData> CreateGpuData()
+        {
+            List<GpuData> output = [];
+            for (int i = 0; i < GpuNames.Count; i++)
+            {
+                var model = new GpuData();
+                model.Name = GpuNames[i];
+                model.Temperature = GpuTemperature[i];
+                model.Load = GpuLoad[i];
+                model.MemoryTotal = GpuMemoryTotal[i];
+                model.MemoryFree = GpuMemoryFree[i];
+                model.MemoryUsed = GpuMemoryUsed[i];
+                output.Add(model);
+            }
+            return output;
         }
     }
 }
