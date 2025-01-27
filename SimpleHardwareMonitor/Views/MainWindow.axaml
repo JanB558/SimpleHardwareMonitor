@@ -3,6 +3,7 @@
         xmlns:vm="using:SimpleHardwareMonitor.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:converters="clr-namespace:SimpleHardwareMonitor.Converters"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SimpleHardwareMonitor.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -25,6 +26,20 @@
 		<TextBlock Grid.Row="2"	Grid.Column="0"
 				   Text="{Binding CpuLoad, StringFormat='Total load: {0}%'}"/>
 		<TextBlock Grid.Row="3" Grid.Column="0"
-				   Text="Threads: "/>
+				   Text="Threads loads: "/>
+		<ItemsControl Grid.Row="4" Grid.Column="0" ItemsSource="{Binding ThreadsLoad}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<TextBlock>
+						<TextBlock.Text>
+							<MultiBinding StringFormat="Core #{0}: {1}%">
+								<Binding Path="Index" />
+								<Binding Path="Value" />
+							</MultiBinding>
+						</TextBlock.Text>
+					</TextBlock>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
 	</Grid>
 </Window>
