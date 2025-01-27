@@ -9,23 +9,23 @@ namespace SimpleHardwareMonitor.ViewModels
     public partial class MainWindowViewModel : ObservableObject
     {
         private readonly IHardwareService _hardwareService;
+        private System.Threading.Timer _refreshTimer;
         public MainWindowViewModel(IHardwareService hardwareService)
         {
             _hardwareService = hardwareService;
             Hardware = _hardwareService.GetHardwareInfo();
 
             _ = _hardwareService.RunRefresh();
-            _ = RunRefresh();
+            _refreshTimer = new System.Threading.Timer(RefreshHardwareInfo, null, 0, 1000);
         }
         [ObservableProperty]
         private HardwareInfo _hardware;
-        private async Task RunRefresh()
+
+        public float? CpuTemperatureValue => Hardware?.CPUTemperature?.Value;
+
+        private void RefreshHardwareInfo(object? state)
         {
-            while(true)
-            {
-                Hardware = _hardwareService.GetHardwareInfo();
-                await Task.Delay(1000);
-            }
+            OnPropertyChanged(nameof(CpuTemperatureValue));
         }
     }
 }
