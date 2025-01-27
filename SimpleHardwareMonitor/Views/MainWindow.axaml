@@ -79,18 +79,32 @@
 			<TextBlock Grid.Row="15"
 					   Text="{Binding MemoryLoad, StringFormat='Memory load: {0}%'}"/>
 		</Grid>
-		<Grid Grid.Column="1"
-				  RowDefinitions="Auto">
+		<Grid
+			Margin="20"
+			Grid.Column="1"
+			RowDefinitions="Auto,Auto">
 			<ItemsControl Grid.Row="0" ItemsSource="{Binding GpuDataCombined}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<StackPanel>
-							<TextBlock Text="{Binding Name}" FontWeight="Bold" />
+							<TextBlock Text="{Binding Name}" />
 							<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C'}" />
 							<TextBlock Text="{Binding Load, StringFormat='Load: {0}%'}" />
 							<TextBlock Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB'}" />
 							<TextBlock Text="{Binding MemoryFree, StringFormat='Memory free {0} GB'}" />
 							<TextBlock Text="{Binding MemoryUsed, StringFormat='Memory used {0} GB'}" />
+							<Separator/>
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			<ItemsControl Grid.Row="1" ItemsSource="{Binding DriveDataCombined}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<TextBlock Text="{Binding Name}" />
+							<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C'}" />
+							<TextBlock Text="{Binding Activity, StringFormat='Activity: {0}%'}" />
 							<Separator/>
 						</StackPanel>
 					</DataTemplate>

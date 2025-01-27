@@ -59,8 +59,8 @@ namespace SimpleHardwareMonitor.ViewModels
         public int? MemoryTotal => Hardware?.MemoryTotal;
         #endregion
         #region gpu
-        private ObservableCollection<string> GpuNames
-            => new(Hardware.GPUs.Select(x => x?.Name ?? string.Empty).ToList());
+        private ObservableCollection<string?> GpuNames
+            => new(Hardware.GPUs.Select(x => x?.Name).ToList());
         private ObservableCollection<float?> GpuTemperature
             => new(Hardware.GPUsTemperature.Select(x => x?.Value).ToList());
         private ObservableCollection<float?> GpuLoad
@@ -74,6 +74,16 @@ namespace SimpleHardwareMonitor.ViewModels
         public ObservableCollection<GpuData> GpuDataCombined
             => new(CreateGpuData().ToList());
         #endregion
+        #region drives
+        private ObservableCollection<string?> DriveNames
+            => new(Hardware.Drives.Select(x => x?.Name).ToList());  
+        private ObservableCollection<float?> DriveTemperature
+            => new(Hardware.DrivesTemperature.Select(x => x?.Value).ToList());
+        private ObservableCollection<float?> DriveActivity
+            => new(Hardware.DrivesActivity.Select(x => x?.Value).ToList());
+        public ObservableCollection<DriveData> DriveDataCombined
+            => new(CreateDriveData().ToList());
+        #endregion
 
         private void RefreshHardwareInfo(object? state)
         {
@@ -86,6 +96,7 @@ namespace SimpleHardwareMonitor.ViewModels
             OnPropertyChanged(nameof(MemoryFree));
             OnPropertyChanged(nameof(MemoryLoad));
             OnPropertyChanged(nameof(GpuDataCombined));
+            OnPropertyChanged(nameof(DriveDataCombined));
         }
 
         private ICollection<GpuData> CreateGpuData()
@@ -100,6 +111,20 @@ namespace SimpleHardwareMonitor.ViewModels
                 model.MemoryTotal = GpuMemoryTotal[i];
                 model.MemoryFree = GpuMemoryFree[i];
                 model.MemoryUsed = GpuMemoryUsed[i];
+                output.Add(model);
+            }
+            return output;
+        }
+
+        private ICollection<DriveData> CreateDriveData()
+        {
+            List<DriveData> output = [];
+            for(int i = 0;i < DriveNames.Count;i++)
+            {
+                var model = new DriveData();
+                model.Name = DriveNames[i];
+                model.Temperature = DriveTemperature[i];
+                model.Activity = DriveActivity[i];
                 output.Add(model);
             }
             return output;
