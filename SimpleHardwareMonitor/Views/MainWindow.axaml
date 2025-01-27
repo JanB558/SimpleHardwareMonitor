@@ -10,12 +10,16 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="SimpleHardwareMonitor">
 
+	<Window.Resources>
+		<converters:SensorStatusConverter x:Key="SensorStatusConverter" />
+	</Window.Resources>
+	
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
 		<vm:MainWindowViewModel/>
 	</Design.DataContext>
-
+	
 	<Grid 
 		ColumnDefinitions="50*,50*">
 		<Grid
@@ -24,8 +28,14 @@
 			Margin="20">
 			<TextBlock Grid.Row="0"
 					   Text="{Binding Hardware.Motherboard.Name, StringFormat='Motherboard: {0}'}"/>
-			<TextBlock Grid.Row="1"
-					   Text="Temperature:"/>
+			<TextBlock Grid.Row="1">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="Temperature: {0}">
+						<Binding Path="MotherboardTemperature"
+								 Converter="{StaticResource SensorStatusConverter}" />
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 			<ItemsControl Grid.Row="2" ItemsSource="{Binding MotherboardTemperature}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -48,8 +58,14 @@
 					   Text="{Binding CpuTemperature, StringFormat='Temperature: {0}°C'}"/>
 			<TextBlock Grid.Row="6"
 					   Text="{Binding CpuLoad, StringFormat='Total load: {0}%'}"/>
-			<TextBlock Grid.Row="7"
-					   Text="Threads loads: "/>
+			<TextBlock Grid.Row="7">
+				<TextBlock.Text>
+					<MultiBinding StringFormat="Thread loads: {0}">
+						<Binding Path="ThreadsLoad"
+								 Converter="{StaticResource SensorStatusConverter}" />
+					</MultiBinding>
+				</TextBlock.Text>
+			</TextBlock>
 			<ItemsControl Grid.Row="8" ItemsSource="{Binding ThreadsLoad}">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
