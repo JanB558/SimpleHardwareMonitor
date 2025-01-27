@@ -21,11 +21,13 @@ namespace SimpleHardwareMonitor.ViewModels
         [ObservableProperty]
         private HardwareInfo _hardware;
 
-        public float? CpuTemperatureValue => Hardware?.CPUTemperature?.Value;
+        public float? CpuTemperature => Hardware?.CPUTemperature?.Value;
+        public float? CpuLoad => Hardware?.CPULoad?.Value;
 
         private void RefreshHardwareInfo(object? state)
         {
-            OnPropertyChanged(nameof(CpuTemperatureValue));
+            OnPropertyChanged(nameof(CpuTemperature));
+            OnPropertyChanged(nameof(CpuLoad));
         }
     }
 }
