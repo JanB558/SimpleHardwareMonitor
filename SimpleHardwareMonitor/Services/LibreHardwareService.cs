@@ -98,16 +98,11 @@ namespace SimpleHardwareMonitor.Services
         {
             foreach (var gpu in HardwareInfo.GPUs)
             {
-                var gpuTemp = gpu.Sensors.FirstOrDefault(x => x.SensorType.Equals(SensorType.Temperature));
-                var gpuLoad = gpu.Sensors.Where(x => x.SensorType == SensorType.Load).FirstOrDefault(x => x.Name.Contains("D3D 3D"));
-                var gpuMemoryTotal = gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Total"));
-                var gpuMemoryUsed = gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Used"));
-                var gpuMemoryFree = gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Free"));
-                HardwareInfo.GPUsTemperature.Add(gpuTemp);
-                HardwareInfo.GPUsLoad.Add(gpuLoad);
-                HardwareInfo.GPUsMemoryTotal.Add(gpuMemoryTotal);
-                HardwareInfo.GPUsMemoryFree.Add(gpuMemoryFree);
-                HardwareInfo.GPUsMemoryUsed.Add(gpuMemoryUsed);
+                HardwareInfo.GPUsTemperature.Add(gpu.Sensors.FirstOrDefault(x => x.SensorType.Equals(SensorType.Temperature)));
+                HardwareInfo.GPUsLoad.Add(gpu.Sensors.Where(x => x.SensorType == SensorType.Load).FirstOrDefault(x => x.Name.Contains("D3D 3D")));
+                HardwareInfo.GPUsMemoryTotal.Add(gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Total")));
+                HardwareInfo.GPUsMemoryUsed.Add(gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Used")));
+                HardwareInfo.GPUsMemoryFree.Add(gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Free")));
             }
         }
         #endregion
@@ -165,10 +160,8 @@ namespace SimpleHardwareMonitor.Services
         {
             foreach (var drive in HardwareInfo.Drives)
             {
-                var ts = drive.Sensors.FirstOrDefault(x => x.SensorType == SensorType.Temperature);
-                var acs = drive.Sensors.Where(x => x.SensorType == SensorType.Load).FirstOrDefault(x => x.Name.Equals("Total Activity"));
-                HardwareInfo.DrivesTemperature.Add(ts);
-                HardwareInfo.DrivesActivity.Add(acs);
+                HardwareInfo.DrivesTemperature.Add(drive.Sensors.FirstOrDefault(x => x.SensorType == SensorType.Temperature));
+                HardwareInfo.DrivesActivity.Add(drive.Sensors.Where(x => x.SensorType == SensorType.Load).FirstOrDefault(x => x.Name.Equals("Total Activity")));
             }
         }
         #endregion
