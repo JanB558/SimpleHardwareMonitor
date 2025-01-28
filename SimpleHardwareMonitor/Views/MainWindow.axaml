@@ -64,7 +64,7 @@
 							   Text="{Binding CpuTemperature, StringFormat='Temperature: {0}°C', 
 					   TargetNullValue='Temperature: Sensor not found'}"/>
 					<TextBlock Grid.Row="2"
-							   Text="{Binding CpuLoad, StringFormat='Total load: {0}%', 
+							   Text="{Binding CpuLoad, StringFormat='Total load: {0:F2}%', 
 					   TargetNullValue='Total load: Sensor not found'}"/>
 					<TextBlock Grid.Row="3">
 						<TextBlock.Text>
@@ -79,7 +79,7 @@
 							<DataTemplate>
 								<TextBlock>
 									<TextBlock.Text>
-										<MultiBinding StringFormat="Core #{0}: {1}%">
+										<MultiBinding StringFormat="Core #{0}: {1:F2}%">
 											<Binding Path="Index" />
 											<Binding Path="Value" />
 										</MultiBinding>
@@ -99,16 +99,16 @@
 							   Text="{Binding MemoryTemperature, StringFormat='Temperature: {0}°C', 
 					   TargetNullValue='Temperature: Sensor not found'}"/>
 					<TextBlock Grid.Row="2"
-							   Text="{Binding MemoryUsed, StringFormat='Memory used: {0} GB', 
+							   Text="{Binding MemoryUsed, StringFormat='Memory used: {0:F2} GB', 
 							   TargetNullValue='Memory used: Sensor not found'}"/>
 					<TextBlock Grid.Row="3"
-							   Text="{Binding MemoryFree, StringFormat='Memory free: {0} GB', 
+							   Text="{Binding MemoryFree, StringFormat='Memory free: {0:F2} GB', 
 							   TargetNullValue='Memory free: Sensor not found'}"/>
 					<TextBlock Grid.Row="4"
 							   Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB', 
 							   TargetNullValue='Memory total: Sensor not found'}"/>
 					<TextBlock Grid.Row="5"
-							   Text="{Binding MemoryLoad, StringFormat='Memory load: {0}%', 
+							   Text="{Binding MemoryLoad, StringFormat='Memory load: {0:F2}%', 
 							   TargetNullValue='Memory load: Sensor not found'}"/>
 				</Grid>
 			</Border>
@@ -121,7 +121,7 @@
 								<TextBlock Text="{Binding Name, StringFormat='GPU: {0}'}" Classes="h2"/>
 								<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C', 
 										   TargetNullValue='Temperature: Sensor not found'}" />
-								<TextBlock Text="{Binding Load, StringFormat='Load: {0}%', 
+								<TextBlock Text="{Binding Load, StringFormat='Total load: {0:F2}%', 
 										   TargetNullValue='Load: Sensor not found'}" />
 								<TextBlock Text="{Binding MemoryTotal, StringFormat='Memory total: {0} GB',
 										   TargetNullValue='Memory total: Sensor not found'}" />
@@ -143,7 +143,7 @@
 								<TextBlock Text="{Binding Name, StringFormat='Drive: {0}'}" Classes="h2"/>
 								<TextBlock Text="{Binding Temperature, StringFormat='Temperature: {0}°C',
 										   TargetNullValue='Temperature: Sensor not found'}" />
-								<TextBlock Text="{Binding Activity, StringFormat='Activity: {0}%',
+								<TextBlock Text="{Binding Activity, StringFormat='Activity: {0:F2}%',
 										   TargetNullValue='Activity: Sensor not found'}" />
 							</StackPanel>
 						</DataTemplate>
