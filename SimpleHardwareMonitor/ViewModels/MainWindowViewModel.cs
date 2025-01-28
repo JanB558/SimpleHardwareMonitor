@@ -3,11 +3,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using SimpleHardwareMonitor.Models;
 using SimpleHardwareMonitor.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SimpleHardwareMonitor.ViewModels
 {

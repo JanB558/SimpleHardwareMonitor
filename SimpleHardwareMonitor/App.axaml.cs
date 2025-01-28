@@ -1,7 +1,5 @@
-using System.Linq;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +7,7 @@ using SimpleHardwareMonitor.Extensions;
 using SimpleHardwareMonitor.Services;
 using SimpleHardwareMonitor.ViewModels;
 using SimpleHardwareMonitor.Views;
+using System.Linq;
 
 namespace SimpleHardwareMonitor
 {
