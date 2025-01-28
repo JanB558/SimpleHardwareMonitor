@@ -64,7 +64,6 @@ namespace SimpleHardwareMonitor.ViewModels
 
                 OnPropertyChanged(nameof(CpuTemperature));
                 OnPropertyChanged(nameof(CpuLoad));
-                OnPropertyChanged(nameof(ThreadsLoad));
 
                 OnPropertyChanged(nameof(MemoryTemperature));
                 OnPropertyChanged(nameof(MemoryUsed));
@@ -96,7 +95,7 @@ namespace SimpleHardwareMonitor.ViewModels
         }
         private void UpdateGpuDataCombined()
         {
-            var gpuNames = Hardware.GPUs.Select(x => x?.Name).ToList();
+            var gpuNames = Hardware.GPUs.Select(x => x?.Name).ToList(); //can be limited to run once
             var gpuTemperature = Hardware.GPUsTemperature.Select(x => x?.Value).ToList();
             var gpuLoad = Hardware.GPUsLoad.Select(x => x?.Value).ToList();
             var gpuMemoryTotal = Hardware.GPUsMemoryTotal.Select(x => x?.Value).ToList();
