@@ -12,11 +12,12 @@ using System.Threading.Tasks;
 
 namespace SimpleHardwareMonitor.Services
 {
-    public class LibreHardwareService : IHardwareService
+    public class LibreHardwareService : IHardwareService, IDisposable
     {
         private readonly Computer _computer;
         private readonly UpdateVisitor _visitor;
         private CancellationTokenSource _cts;
+        private bool _disposed;
 
         public LibreHardwareService()
         {
@@ -43,6 +44,15 @@ namespace SimpleHardwareMonitor.Services
             _computer.Accept(_visitor);
 
             Init();
+        }
+
+        public void Dispose()
+        {
+            if (_disposed) return;
+            _disposed = true;
+            _cts.Cancel();
+            _computer.Close();
+            _cts.Dispose();
         }
 
         public HardwareInfo HardwareInfo { get; set; }
