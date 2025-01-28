@@ -83,7 +83,7 @@ namespace SimpleHardwareMonitor.Services
                 while (!_cts.Token.IsCancellationRequested)
                 {
                     _computer.Traverse(_visitor);
-                    await Task.Delay(1000);
+                    await Task.Delay(1000, _cts.Token);
                 }
             }, _cts.Token);
         }
