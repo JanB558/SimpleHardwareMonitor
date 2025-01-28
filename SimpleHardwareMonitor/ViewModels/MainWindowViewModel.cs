@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using SimpleHardwareMonitor.Models;
 using SimpleHardwareMonitor.Services;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -13,14 +14,16 @@ namespace SimpleHardwareMonitor.ViewModels
     public partial class MainWindowViewModel : ObservableObject
     {
         private readonly IHardwareService _hardwareService;
-        private readonly System.Threading.Timer _refreshTimer; //no need to dispose since it's one page application
+        private readonly DispatcherTimer _refreshTimer;
         public MainWindowViewModel(IHardwareService hardwareService)
         {
             _hardwareService = hardwareService;
             Hardware = _hardwareService.GetHardwareInfo();
 
             _ = _hardwareService.RunRefresh();
-            _refreshTimer = new System.Threading.Timer(RefreshHardwareInfo, null, 0, 1000);
+            _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+            _refreshTimer.Tick += (s, e) => RefreshHardwareInfo();
+            _refreshTimer.Start();
         }
         [ObservableProperty]
         private HardwareInfo _hardware;
@@ -30,34 +33,29 @@ namespace SimpleHardwareMonitor.ViewModels
         //Implementing INotifyPropertyChanged is too complicated since ISensor 
         //comes from nuget and cannot be directly edited (maybe could be with wrapper).
         //There are probably other solutions to this problem.
-        #region cpu
+        #region hardware_properties
         public float? CpuTemperature => Hardware.CPUTemperature?.Value;
         public float? CpuLoad => Hardware.CPULoad?.Value;
         private ObservableCollection<IndexValue> _threadsLoad = new();
         public ObservableCollection<IndexValue> ThreadsLoad => _threadsLoad;
-        #endregion
-        #region mobo
+
         private ObservableCollection<IndexValue> _motherboardTemperature = new();
         public ObservableCollection<IndexValue> MotherboardTemperature => _motherboardTemperature;
 
-        #endregion
-        #region memory
         public float? MemoryTemperature => Hardware.MemoryTemperature?.Value;
         public float? MemoryUsed => Hardware.MemoryUsed?.Value;
         public float? MemoryFree => Hardware.MemoryFree?.Value;
         public float? MemoryLoad => Hardware.MemoryLoad?.Value;
         public int? MemoryTotal => Hardware.MemoryTotal;
-        #endregion
-        #region gpu
+
         private ObservableCollection<GpuData> _gpuDataCombined = new();
         public ObservableCollection<GpuData> GpuDataCombined => _gpuDataCombined;
-        #endregion
-        #region drives
+
         private ObservableCollection<DriveData> _driveDataCombined = new();
         public ObservableCollection<DriveData> DriveDataCombined => _driveDataCombined;
         #endregion
 
-        private void RefreshHardwareInfo(object? state)
+        private void RefreshHardwareInfo()
         {
             Dispatcher.UIThread.InvokeAsync(() =>
             {
@@ -78,7 +76,6 @@ namespace SimpleHardwareMonitor.ViewModels
             });
         }
 
-        #region collection_handling
         private void UpdateThreadsLoad()
         {
             var newData = Hardware.ThreadsLoad.Select((x, index) => new IndexValue
@@ -140,6 +137,5 @@ namespace SimpleHardwareMonitor.ViewModels
                 _driveDataCombined.Add(model);
             }
         }
-        #endregion
     }
 }
