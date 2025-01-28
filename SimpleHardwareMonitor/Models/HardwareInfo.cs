@@ -26,7 +26,7 @@ namespace SimpleHardwareMonitor.Models
         public ISensor? MemoryUsed { get; set; }
         public ISensor? MemoryFree { get; set; }
         public ISensor? MemoryLoad { get; set; }
-        public int MemoryTotal { get; set; }
+        public int? MemoryTotal { get; set; }
 
         public List<IHardware> Drives { get; set; } = [];
         public List<ISensor?> DrivesTemperature { get; set; } = [];

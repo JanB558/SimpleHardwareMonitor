@@ -31,8 +31,8 @@ namespace SimpleHardwareMonitor.ViewModels
         //comes from nuget and cannot be directly edited (maybe could be with wrapper).
         //There are probably other solutions to this problem.
         #region cpu
-        public float? CpuTemperature => Hardware?.CPUTemperature?.Value;
-        public float? CpuLoad => Hardware?.CPULoad?.Value;
+        public float? CpuTemperature => Hardware.CPUTemperature?.Value;
+        public float? CpuLoad => Hardware.CPULoad?.Value;
         private ObservableCollection<IndexValue> _threadsLoad = new();
         public ObservableCollection<IndexValue> ThreadsLoad => _threadsLoad;
         #endregion
@@ -42,11 +42,11 @@ namespace SimpleHardwareMonitor.ViewModels
 
         #endregion
         #region memory
-        public float? MemoryTemperature => Hardware?.MemoryTemperature?.Value;
-        public float? MemoryUsed => Hardware?.MemoryUsed?.Value;
-        public float? MemoryFree => Hardware?.MemoryFree?.Value;
-        public float? MemoryLoad => Hardware?.MemoryLoad?.Value;
-        public int? MemoryTotal => Hardware?.MemoryTotal;
+        public float? MemoryTemperature => Hardware.MemoryTemperature?.Value;
+        public float? MemoryUsed => Hardware.MemoryUsed?.Value;
+        public float? MemoryFree => Hardware.MemoryFree?.Value;
+        public float? MemoryLoad => Hardware.MemoryLoad?.Value;
+        public int? MemoryTotal => Hardware.MemoryTotal;
         #endregion
         #region gpu
         private ObservableCollection<GpuData> _gpuDataCombined = new();

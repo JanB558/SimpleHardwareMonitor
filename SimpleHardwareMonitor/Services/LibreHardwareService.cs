@@ -139,6 +139,10 @@ namespace SimpleHardwareMonitor.Services
                     var total = HardwareInfo.MemoryUsed.Value + HardwareInfo.MemoryFree.Value;
                     HardwareInfo.MemoryTotal = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(total)));
                 }
+                else
+                {
+                    HardwareInfo.MemoryTotal = null;
+                }
             }
         }
         #endregion
