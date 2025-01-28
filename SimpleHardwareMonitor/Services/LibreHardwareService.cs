@@ -16,7 +16,7 @@ namespace SimpleHardwareMonitor.Services
     {
         private readonly Computer _computer;
         private readonly UpdateVisitor _visitor;
-        private CancellationTokenSource _cts;
+        private readonly CancellationTokenSource _cts;
         private bool _disposed;
 
         public LibreHardwareService()
@@ -53,6 +53,7 @@ namespace SimpleHardwareMonitor.Services
             _cts.Cancel();
             _computer.Close();
             _cts.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         public HardwareInfo HardwareInfo { get; set; }
@@ -88,7 +89,6 @@ namespace SimpleHardwareMonitor.Services
             }, _cts.Token);
         }
 
-        #region GPU
         private void GetGPUs()
         {
             var gpuTypes = new[] { HardwareType.GpuIntel, HardwareType.GpuAmd, HardwareType.GpuNvidia };
@@ -105,8 +105,7 @@ namespace SimpleHardwareMonitor.Services
                 HardwareInfo.GPUsMemoryFree.Add(gpu.Sensors.Where(x => x.SensorType == SensorType.SmallData).FirstOrDefault(x => x.Name.Contains("GPU Memory Free")));
             }
         }
-        #endregion
-        #region CPU
+
         private void GetCPU()
         {
             HardwareInfo.CPU = _computer.Hardware.FirstOrDefault(x => x.HardwareType == HardwareType.Cpu);
@@ -115,18 +114,21 @@ namespace SimpleHardwareMonitor.Services
         {
             if (HardwareInfo.CPU is not null)
             {
-                var t = HardwareInfo.CPU.Sensors.Where(x => x.SensorType == SensorType.Temperature)
-                            .Where(x => !x.Name.Contains("Core")).ToList();
-
-                if (t.Count > 1) { throw new Exception("Unexpected count of CPU Temperature sensors."); }
-
-                HardwareInfo.CPUTemperature = t.FirstOrDefault();
+                try
+                {
+                    var t = HardwareInfo.CPU.Sensors.Where(x => x.SensorType == SensorType.Temperature)
+                                .Where(x => !x.Name.Contains("Core")).ToList();
+                    if (t.Count > 1) { throw new Exception("Unexpected count of CPU Temperature sensors."); }
+                    HardwareInfo.CPUTemperature = t.FirstOrDefault();
+                }catch(Exception e)
+                {
+                    Logger.LogError(e.Message);
+                }
                 HardwareInfo.CPULoad = HardwareInfo.CPU.Sensors.Where(x => x.SensorType == SensorType.Load).FirstOrDefault(x => x.Name.Contains("Total"));
                 HardwareInfo.ThreadsLoad = HardwareInfo.CPU.Sensors.Where(x => x.SensorType == SensorType.Load).Where(x => x.Name.Contains("CPU Core #")).ToList();
             }
         }
-        #endregion
-        #region Memory
+
         private void GetMemory()
         {
             HardwareInfo.Memory = _computer.Hardware.FirstOrDefault(x => x.HardwareType == HardwareType.Memory);
@@ -150,8 +152,7 @@ namespace SimpleHardwareMonitor.Services
                 }
             }
         }
-        #endregion
-        #region Drives
+
         private void GetDrives()
         {
             HardwareInfo.Drives = _computer.Hardware.Where(x => x.HardwareType == HardwareType.Storage).ToList();
@@ -164,8 +165,7 @@ namespace SimpleHardwareMonitor.Services
                 HardwareInfo.DrivesActivity.Add(drive.Sensors.Where(x => x.SensorType == SensorType.Load).FirstOrDefault(x => x.Name.Equals("Total Activity")));
             }
         }
-        #endregion
-        #region Motherboard
+
         private void GetMotherboard()
         {
             HardwareInfo.Motherboard = _computer.Hardware.FirstOrDefault(x => x.HardwareType == HardwareType.Motherboard);
@@ -175,6 +175,5 @@ namespace SimpleHardwareMonitor.Services
             if (HardwareInfo.Motherboard is not null)
                 HardwareInfo.MotherboardTemperature = HardwareInfo.Motherboard.Sensors.Where(x => x.SensorType == SensorType.Temperature).ToList();
         }
-        #endregion
     }
 }
