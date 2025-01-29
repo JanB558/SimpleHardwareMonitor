@@ -68,7 +68,7 @@
 					   TargetNullValue='Total load: Sensor not found'}"/>
 					<TextBlock Grid.Row="3">
 						<TextBlock.Text>
-							<MultiBinding StringFormat="Thread loads: {0}">
+							<MultiBinding StringFormat="Threads load: {0}">
 								<Binding Path="ThreadsLoad"
 										 Converter="{StaticResource SensorStatusConverter}" />
 							</MultiBinding>

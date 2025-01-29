@@ -62,6 +62,9 @@ namespace SimpleHardwareMonitor.ViewModels
                 UpdateGpuDataCombined();
                 UpdateDriveDataCombined();
 
+                OnPropertyChanged(nameof(ThreadsLoad));             // without that converter
+                OnPropertyChanged(nameof(MotherboardTemperature));  // doesn't update properly
+
                 OnPropertyChanged(nameof(CpuTemperature));
                 OnPropertyChanged(nameof(CpuLoad));
 
