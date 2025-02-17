@@ -41,3 +41,6 @@ Desktop application that conveniently displays all basic hardware information on
 **Frontend:**
 - Avalonia UI
 - XAML
+
+# Preview images
+![Preview image 1](img1.png)
