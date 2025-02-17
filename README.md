@@ -1,5 +1,5 @@
 # Simple Hardware Monitor
-Desktop application that conveniently displays all basic hardware information on single page. Supports Windows, Linux support not tested.
+Example project - desktop application that conveniently displays all basic hardware information on single page. Supports Windows, Linux support not tested.
 ## Key features
 - display name of hardware components
 - monitor sensor data in real time
